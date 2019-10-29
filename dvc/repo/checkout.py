@@ -24,7 +24,7 @@ def get_all_files_numbers(stages):
 
 
 def _checkout(
-    self, targets=None, with_deps=False, force=False, recursive=False
+    self, targets=None, with_deps=False, force=False, recursive=False, warn=True
 ):
     from dvc.stage import StageFileDoesNotExistError, StageFileBadNameError
 
@@ -50,7 +50,7 @@ def _checkout(
         total=total, unit="file", desc="Checkout", disable=total == 0
     ) as pbar:
         for stage in stages:
-            if stage.locked:
+            if stage.locked and warn:
                 logger.warning(
                     "DVC-file '{path}' is locked. Its dependencies are"
                     " not going to be checked out.".format(path=stage.relpath)
